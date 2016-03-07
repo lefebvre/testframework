@@ -13,10 +13,8 @@ SET(TESTFRAMEWORK_BASE_MAIN_
    PARENT_SCOPE)
 SET(TESTFRAMEWORK_CORE_MAIN_
    "${THIS_ABSOLUTE_BASE}/gtest_qcoreapp_main.cc"
-   "${THIS_ABSOLUTE_BASE}/qcoreappfixture.hh"
    PARENT_SCOPE)
 SET(TESTFRAMEWORK_QAPP_MAIN_
    "${THIS_ABSOLUTE_BASE}/gtest_qapp_main.cc"
-   "${THIS_ABSOLUTE_BASE}/qappfixture.hh"
     PARENT_SCOPE)
 
