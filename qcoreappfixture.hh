@@ -6,11 +6,14 @@ namespace testframework
 class QCoreAppFixture : public ::testing::Test
 {
 public:
-  QCoreAppFixture(){}
-  ~QCoreAppFixture()
-  {
-     qApp->quit();
-  }
+    QCoreAppFixture(){}
+    ~QCoreAppFixture()
+    {
+    }
+    void TearDown()
+    {
+    }
+
 protected:
 }; // class QCoreAppFixture
 }  // namespace testframework
