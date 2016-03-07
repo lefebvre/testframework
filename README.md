@@ -23,4 +23,4 @@ ADD_GOOGLE_TEST(tstTest.cc)
 ```
 
 
-Please read the [ADD_GOOGLE_TEST documentation](https://github.com/lefebvre/testframework/blob/master/cmake/GoogleTest.cmake) for option details.
+Please read the [ADD_GOOGLE_TEST documentation](https://github.com/lefebvre/testframework/blob/master/modules/GoogleTest.cmake) for option details.
