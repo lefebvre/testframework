@@ -6,7 +6,7 @@ namespace testframework
 class QCoreAppFixture : public ::testing::Test
 {
 public:
-  QCoreAppFixture(){};
+  QCoreAppFixture(){}
   ~QCoreAppFixture()
   {
      qApp->quit();
