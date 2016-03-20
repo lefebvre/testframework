@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QThread>
 #include <stdio.h>
 #include "gtest/gtest.h"
 
