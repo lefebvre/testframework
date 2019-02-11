@@ -31,7 +31,7 @@ INCLUDE(AssertDefined)
 # DEPLIBS specifies extra libraries to link to. By default, unit tests will link
 # against the package's current library.
 #
-# ENVRIONMENT sets the given environmental variables when the test is run.
+# ENVIRONMENT sets the given environmental variables when the test is run.
 #
 # If ISOLATE is specified, the test will be run in its own directory.
 #
@@ -48,17 +48,21 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
     "TIMEOUT"
     "DEPLIBS;NP;ENVIRONMENT" ${ARGN})
 
+
   IF(PARSE_QTAPP)
-    SET(MAIN_EXECUTABLE_FILE "${TESTFRAMEWORK_QAPP_MAIN_}")
+    SET(MAIN_EXECUTABLE_DEPLIB TESTFRAMEWORK_QAPP_DEPLIB)
   ELSEIF(PARSE_QTCOREAPP)
-    SET(MAIN_EXECUTABLE_FILE "${TESTFRAMEWORK_CORE_MAIN_}")
+    SET(MAIN_EXECUTABLE_DEPLIB TESTFRAMEWORK_QCOREAPP_DEPLIB)
   ELSE()
-    SET(MAIN_EXECUTABLE_FILE "${TESTFRAMEWORK_BASE_MAIN_}")
+    SET(MAIN_EXECUTABLE_DEPLIB TESTFRAMEWORK_BASE_DEPLIB)
   ENDIF()
+
 
   # Add additional library dependencies if needed
   IF(PARSE_DEPLIBS)
-    SET(DEPLIBS_PARM TESTONLYLIBS ${PARSE_DEPLIBS})
+    SET(DEPLIBS_PARM TESTONLYLIBS ${PARSE_DEPLIBS} ${MAIN_EXECUTABLE_DEPLIB})
+  ELSE()
+    SET(DEPLIBS_PARM TESTONLYLIBS ${MAIN_EXECUTABLE_DEPLIB})
   ENDIF()
 
   # Set number of processors, defaulting to 1
@@ -89,7 +93,7 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
   GET_FILENAME_COMPONENT(EXE_NAME ${SOURCE_FILE} NAME_WE)
   TRIBITS_ADD_EXECUTABLE(
     ${EXE_NAME}
-    SOURCES ${SOURCE_FILE} ${MAIN_EXECUTABLE_FILE}
+    SOURCES ${SOURCE_FILE}
     ${DEPLIBS_PARM}
     COMM ${COMM}
     )
