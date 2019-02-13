@@ -3,7 +3,15 @@
 #include <stdio.h>
 #include "gtest/gtest.h"
 
-class Thread : public QThread
+#if defined _WIN32 || defined __CYGWIN__
+  #define TFW_PUBLIC __declspec(dllexport)
+  #define TFW_LOCAL
+#else
+  #define TFW_PUBLIC
+  #define TFW_LOCAL __declspec(dllimport)
+#endif
+
+class TFW_PUBLIC Thread : public QThread
 {
 private:
 
@@ -24,7 +32,7 @@ public:
         result = RUN_ALL_TESTS();
     }
 }; // class Thread
-int main(int argc, char **argv) {
+int TFW_PUBLIC main(int argc, char **argv) {
   QApplication app(argc, argv);
   int result = 0;
   Thread thread(argc, argv);

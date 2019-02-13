@@ -2,8 +2,15 @@
 #include <QThread>
 #include <stdio.h>
 #include "gtest/gtest.h"
+#if defined _WIN32 || defined __CYGWIN__
+  #define TFW_PUBLIC __declspec(dllexport)
+  #define TFW_LOCAL
+#else
+  #define TFW_PUBLIC
+  #define TFW_LOCAL __declspec(dllimport)
+#endif
 
-class Thread : public QThread
+class TFW_PUBLIC Thread : public QThread
 {
 private:
 
@@ -25,7 +32,7 @@ public:
     }
 }; // class Thread
 
-int main(int argc, char **argv) {
+int TFW_PUBLIC main(int argc, char **argv) {
   QCoreApplication app(argc, argv);
   int result = 0;
   Thread thread(argc, argv);
