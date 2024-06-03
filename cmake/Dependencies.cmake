@@ -1,8 +1,10 @@
-IF(USE_QT5)
- SET(QT_DEP Qt5Widgets Qt5Core)
-ELSEIF(USE_QT4)
- SET(QT_DEP QT)
-ENDIF()
+if(NOT TESTFRAMEWORK_DISABLE_QTESTS)
+  IF(USE_QT5)
+    SET(QT_DEP Qt5Widgets Qt5Core)
+  ELSEIF(USE_QT4)
+  SET(QT_DEP QT)
+  ENDIF()
+endif()
 
 # allow for tests to be disabled and no testing harness to be compiled.
 IF(${PROJECT_NAME}_ENABLE_TESTS)

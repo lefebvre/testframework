@@ -20,15 +20,19 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
   )
   #
   # Add different front-end executables that depend on Qt as test only libraries
-  IF(TPL_ENABLE_Qt5Core OR TPL_ENABLE_QT)
-    TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QAPP_DEPLIB
-      SOURCES gtest_qapp_main.cc
-      TESTONLY
-    )
-    TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QCOREAPP_DEPLIB
-      SOURCES gtest_qcoreapp_main.cc
-      TESTONLY
-    )
+  IF(NOT TESTFRAMEWORK_DISABLE_QTESTS)
+    IF(TPL_ENABLE_Qt5Core OR TPL_ENABLE_QT)
+      TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QCOREAPP_DEPLIB
+        SOURCES gtest_qcoreapp_main.cc
+        TESTONLY
+      )
+    ENDIF()
+    IF(TPL_ENABLE_Qt5Widgets OR TPL_ENABLE_QT)
+      TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QAPP_DEPLIB
+        SOURCES gtest_qapp_main.cc
+        TESTONLY
+      )
+    ENDIF()
   ENDIF()
 ENDIF()
 
