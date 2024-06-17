@@ -7,7 +7,7 @@ ENDIF()
 # allow for tests to be disabled and no testing harness to be compiled.
 IF(${PROJECT_NAME}_ENABLE_TESTS)
   TRIBITS_PACKAGE_DEFINE_DEPENDENCIES(
-    LIB_REQUIRED_PACKAGES googletest
+    LIB_OPTIONAL_PACKAGES googletest
     LIB_REQUIRED_TPLS ${QT_DEP}
   )
 ELSE()
