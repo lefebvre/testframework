@@ -10,6 +10,8 @@
 #
 TRIBITS_PACKAGE(testframework)
 
+# only if testing is enabled do we want to compile harnesses
+IF(${PROJECT_NAME}_ENABLE_TESTS)
 #
 # Integrate with the vanilla google test cmake
 IF(NOT googletest-distribution_BINARY_DIR)

@@ -43,6 +43,10 @@ INCLUDE(AssertDefined)
 # If QTAPP is specified, we will build the test executable with QtAppFixture
 #
 FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
+  IF(NOT ${PROJECT_NAME}_ENABLE_TESTS)
+    # no testing needed
+    RETURN()
+  ENDIF()
   cmake_parse_arguments(PARSE
     "ISOLATE;DISABLE;QTCOREAPP;QTAPP"
     "TIMEOUT"
