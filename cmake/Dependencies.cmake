@@ -1,7 +1,7 @@
-IF(USE_QT5)
- SET(QT_DEP Qt5Widgets Qt5Core)
-ELSEIF(USE_QT4)
- SET(QT_DEP QT)
+IF(USE_QT6)
+  SET(QT_DEP Qt6Widgets Qt6Core)
+ELSEIF(USE_QT5)
+  SET(QT_DEP Qt5Widgets Qt5Core)
 ENDIF()
 
 # allow for tests to be disabled and no testing harness to be compiled.
