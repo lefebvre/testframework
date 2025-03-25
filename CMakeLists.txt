@@ -15,14 +15,26 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
   #
   # Integrate with the vanilla google test cmake
   IF(NOT googletest-distribution_BINARY_DIR)
-      MESSAGE(FATAL "googletest is required to be processed prior to testframework"
-        "Please add_subdirectory(googletest).")
-  ELSE()
-      # Add include directory for 'gtest/gtest/h' include.
-      SET(gtest_include_dir "${googletest-distribution_SOURCE_DIR}/googletest/include/")
-      MESSAGE(STATUS "Adding googletest source dir: ${gtest_include_dir}")
-      INCLUDE_DIRECTORIES(${gtest_include_dir})
+      MESSAGE(STATUS "Tests enabled. Attempting to fetch GoogleTest...")
+      INCLUDE(FetchContent)
+      FetchContent_Declare(
+        googletest
+        URL file://${CMAKE_CURRENT_LIST_DIR}/external/googletest-609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+      )
+      # For Windows: Prevent overriding the parent project's compiler/linker settings
+      SET(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+      FetchContent_MakeAvailable(googletest)
+      # enable ctest targets
+      MESSAGE(STATUS "Enabling ctest targets.")
+      INCLUDE (CTest)
+      ENABLE_TESTING()
   ENDIF()
+
+  # Add include directory for 'gtest/gtest/h' include.
+  SET(gtest_include_dir "${googletest-distribution_SOURCE_DIR}/googletest/include/")
+  MESSAGE(STATUS "Adding googletest source dir: ${gtest_include_dir}")
+  INCLUDE_DIRECTORIES(${gtest_include_dir})
+
   #
   # Add different front-end executables as test only libraries
   TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_BASE_DEPLIB
