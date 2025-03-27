@@ -19,7 +19,7 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
       INCLUDE(FetchContent)
       FetchContent_Declare(
         googletest
-        URL file://${CMAKE_CURRENT_LIST_DIR}/external/googletest-609281088cfefc76f9d0ce82e1ff6c30cc3591e5.zip
+        URL https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
       )
       # For Windows: Prevent overriding the parent project's compiler/linker settings
       SET(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
