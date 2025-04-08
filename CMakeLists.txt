@@ -20,7 +20,7 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
       FetchContent_Declare(
         googletest
         URL https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip
-        SOURCE_DIR "${PROJECT_SOURCE_DIR}/thirdparty/googletest"
+        SOURCE_DIR "${PROJECT_SOURCE_DIR}/external/googletest"
       )
       # For Windows: Prevent overriding the parent project's compiler/linker settings
       SET(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
