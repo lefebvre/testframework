@@ -101,6 +101,14 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
     ${DEPLIBS_PARM}
     COMM ${COMM}
     )
+  IF(WIN32)
+    SET(_target ${PACKAGE_NAME}_${EXE_NAME})
+    ADD_CUSTOM_COMMAND(
+        TARGET ${_target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${_target}> $<TARGET_FILE_DIR:${_target}>
+        COMMAND_EXPAND_LISTS
+    )
+  endif ()
 
   # If the test is disabled, notify configuration
   IF (PARSE_DISABLE)
