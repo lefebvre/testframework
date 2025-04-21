@@ -14,7 +14,7 @@ TRIBITS_PACKAGE(testframework)
 IF(${PROJECT_NAME}_ENABLE_TESTS)
   #
   # Integrate with the vanilla google test cmake
-  IF(NOT googletest-distribution_BINARY_DIR)
+  IF(NOT ${PROJECT_NAME}_ENABLE_googletest)
       MESSAGE(STATUS "Tests enabled. Attempting to fetch GoogleTest...")
       IF(NOT GOOGLETEST_FETCH_URL)
         SET(GOOGLETEST_FETCH_URL "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip")
