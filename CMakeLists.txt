@@ -14,25 +14,23 @@ TRIBITS_PACKAGE(testframework)
 IF(${PROJECT_NAME}_ENABLE_TESTS)
   #
   # Integrate with the vanilla google test cmake
-  IF(NOT ${PROJECT_NAME}_ENABLE_googletest)
-      MESSAGE(STATUS "Tests enabled. Attempting to fetch GoogleTest...")
-      IF(NOT GOOGLETEST_FETCH_URL)
-        SET(GOOGLETEST_FETCH_URL "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip")
-      ENDIF()
-      INCLUDE(FetchContent)
-      FetchContent_Declare(
-        googletest
-        URL ${GOOGLETEST_FETCH_URL}
-        SOURCE_DIR "${PROJECT_SOURCE_DIR}/external/googletest"
-      )
-      # For Windows: Prevent overriding the parent project's compiler/linker settings
-      SET(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-      FetchContent_MakeAvailable(googletest)
-      # enable ctest targets
-      MESSAGE(STATUS "Enabling ctest targets.")
-      INCLUDE (CTest)
-      ENABLE_TESTING()
+  MESSAGE(STATUS "Tests enabled. Attempting to fetch GoogleTest...")
+  IF(NOT GOOGLETEST_FETCH_URL)
+    SET(GOOGLETEST_FETCH_URL "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip")
   ENDIF()
+  INCLUDE(FetchContent)
+  FetchContent_Declare(
+    googletest
+    URL ${GOOGLETEST_FETCH_URL}
+    SOURCE_DIR "${PROJECT_SOURCE_DIR}/external/googletest"
+  )
+  # For Windows: Prevent overriding the parent project's compiler/linker settings
+  SET(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(googletest)
+  # enable ctest targets
+  MESSAGE(STATUS "Enabling ctest targets.")
+  INCLUDE (CTest)
+  ENABLE_TESTING()
 
   # Add include directory for 'gtest.h' include.
   SET(gtest_include_dir "${googletest-distribution_SOURCE_DIR}/googletest/include/")
