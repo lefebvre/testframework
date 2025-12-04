@@ -105,7 +105,7 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
     SET(_target ${PACKAGE_NAME}_${EXE_NAME})
     ADD_CUSTOM_COMMAND(
         TARGET ${_target} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_RUNTIME_DLLS:${_target}> $<TARGET_FILE_DIR:${_target}>
+        COMMAND ${CMAKE_COMMAND} -E $<IF:$<BOOL:$<TARGET_RUNTIME_DLLS:${_target}>>,copy_if_different,true> $<TARGET_RUNTIME_DLLS:${_target}> $<TARGET_FILE_DIR:${_target}>
         COMMAND_EXPAND_LISTS
     )
   endif ()
