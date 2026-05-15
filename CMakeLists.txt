@@ -47,16 +47,31 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
   #
   # Add different front-end executables that depend on Qt as test only libraries
   IF(TPL_ENABLE_Qt6Core OR TPL_ENABLE_Qt5Core)
-    TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QAPP_DEPLIB
-      SOURCES gtest_qapp_main.cc
-      TESTONLY
-    )
-    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QAPP_DEPLIB gtest)
+    # Determine which Qt targets to use
+    IF(TPL_ENABLE_Qt6Core)
+      SET(_QT_CORE_TARGET Qt6Core::all_libs)
+    ELSE()
+      SET(_QT_CORE_TARGET Qt5Core::all_libs)
+    ENDIF()
     TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QCOREAPP_DEPLIB
       SOURCES gtest_qcoreapp_main.cc
       TESTONLY
     )
-    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QCOREAPP_DEPLIB gtest)
+    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QCOREAPP_DEPLIB PUBLIC gtest PRIVATE ${_QT_CORE_TARGET})
+  ENDIF()
+
+  IF(TPL_ENABLE_Qt6Widgets OR TPL_ENABLE_Qt5Widgets)
+    # Determine which Qt targets to use
+    IF(TPL_ENABLE_Qt6Widgets)
+      SET(_QT_WIDGETS_TARGET Qt6Widgets::all_libs)
+    ELSE()
+      SET(_QT_WIDGETS_TARGET Qt5Widgets::all_libs)
+    ENDIF()
+    TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QAPP_DEPLIB
+      SOURCES gtest_qapp_main.cc
+      TESTONLY
+    )
+    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QAPP_DEPLIB PUBLIC gtest PRIVATE ${_QT_WIDGETS_TARGET})
   ENDIF()
 ENDIF()
 TRIBITS_PACKAGE_POSTPROCESS()
