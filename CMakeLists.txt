@@ -43,7 +43,7 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
     SOURCES gtest_main.cc
     TESTONLY
   )
-  TARGET_LINK_LIBRARIES(TESTFRAMEWORK_BASE_DEPLIB gtest)
+  TARGET_LINK_LIBRARIES(TESTFRAMEWORK_BASE_DEPLIB PUBLIC gtest)
   #
   # Add different front-end executables that depend on Qt as test only libraries
   IF(TPL_ENABLE_Qt6Core OR TPL_ENABLE_Qt5Core)
