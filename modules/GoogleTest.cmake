@@ -116,6 +116,16 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
     RETURN()
   ENDIF()
 
+  # Determine directory where executables are placed
+  # On Windows with BUILD_SHARED_LIBS, CMAKE_RUNTIME_OUTPUT_DIRECTORY is set to
+  # a central directory (e.g., cmake_runtime_output/) and ctest needs to know
+  # where to find the test executables.
+  IF(CMAKE_RUNTIME_OUTPUT_DIRECTORY)
+    SET(_test_directory_parm DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
+  ELSE()
+    SET(_test_directory_parm)
+  ENDIF()
+
   # Loop over processors for parallel tests
   FOREACH(np ${NUM_PROCS})
     IF (PARSE_ISOLATE)
@@ -126,6 +136,7 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
           TEST_0
             EXEC ${EXE_NAME}
             NUM_MPI_PROCS ${np}
+          ${_test_directory_parm}
           OVERALL_WORKING_DIRECTORY TEST_NAME
           )
       ELSE()
@@ -134,6 +145,7 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
           ${EXE_NAME}
           TEST_0
             EXEC ${EXE_NAME}
+          ${_test_directory_parm}
           OVERALL_WORKING_DIRECTORY TEST_NAME
           )
       ENDIF()
@@ -142,6 +154,7 @@ FUNCTION(ADD_GOOGLE_TEST SOURCE_FILE)
       TRIBITS_ADD_TEST(
         ${EXE_NAME}
         NUM_MPI_PROCS ${np}
+        ${_test_directory_parm}
         )
     ENDIF()
   ENDFOREACH()
