@@ -16,7 +16,7 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
   # Integrate with the vanilla google test cmake
   MESSAGE(STATUS "Tests enabled. Attempting to fetch GoogleTest...")
   IF(NOT GOOGLETEST_FETCH_URL)
-    SET(GOOGLETEST_FETCH_URL "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip")
+    SET(GOOGLETEST_FETCH_URL "https://github.com/google/googletest/archive/refs/tags/release-1.17.0.zip")
   ENDIF()
   INCLUDE(FetchContent)
   FetchContent_Declare(
