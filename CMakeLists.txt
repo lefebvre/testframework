@@ -16,7 +16,7 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
   # Integrate with the vanilla google test cmake
   MESSAGE(STATUS "Tests enabled. Attempting to fetch GoogleTest...")
   IF(NOT GOOGLETEST_FETCH_URL)
-    SET(GOOGLETEST_FETCH_URL "https://github.com/google/googletest/archive/refs/tags/release-1.12.1.zip")
+    SET(GOOGLETEST_FETCH_URL "https://github.com/google/googletest/archive/refs/tags/v1.17.0.zip")
   ENDIF()
   INCLUDE(FetchContent)
   FetchContent_Declare(
@@ -43,20 +43,35 @@ IF(${PROJECT_NAME}_ENABLE_TESTS)
     SOURCES gtest_main.cc
     TESTONLY
   )
-  TARGET_LINK_LIBRARIES(TESTFRAMEWORK_BASE_DEPLIB gtest)
+  TARGET_LINK_LIBRARIES(TESTFRAMEWORK_BASE_DEPLIB PUBLIC gtest)
   #
   # Add different front-end executables that depend on Qt as test only libraries
   IF(TPL_ENABLE_Qt6Core OR TPL_ENABLE_Qt5Core)
-    TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QAPP_DEPLIB
-      SOURCES gtest_qapp_main.cc
-      TESTONLY
-    )
-    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QAPP_DEPLIB gtest)
+    # Determine which Qt targets to use
+    IF(TPL_ENABLE_Qt6Core)
+      SET(_QT_CORE_TARGET Qt6::Core)
+    ELSE()
+      SET(_QT_CORE_TARGET Qt5::Core)
+    ENDIF()
     TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QCOREAPP_DEPLIB
       SOURCES gtest_qcoreapp_main.cc
       TESTONLY
     )
-    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QCOREAPP_DEPLIB gtest)
+    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QCOREAPP_DEPLIB PUBLIC gtest PRIVATE ${_QT_CORE_TARGET})
+  ENDIF()
+
+  IF(TPL_ENABLE_Qt6Widgets OR TPL_ENABLE_Qt5Widgets)
+    # Determine which Qt targets to use
+    IF(TPL_ENABLE_Qt6Widgets)
+      SET(_QT_WIDGETS_TARGET Qt6::Widgets)
+    ELSE()
+      SET(_QT_WIDGETS_TARGET Qt5::Widgets)
+    ENDIF()
+    TRIBITS_ADD_LIBRARY(TESTFRAMEWORK_QAPP_DEPLIB
+      SOURCES gtest_qapp_main.cc
+      TESTONLY
+    )
+    TARGET_LINK_LIBRARIES(TESTFRAMEWORK_QAPP_DEPLIB PUBLIC gtest PRIVATE ${_QT_WIDGETS_TARGET})
   ENDIF()
 ENDIF()
 TRIBITS_PACKAGE_POSTPROCESS()
